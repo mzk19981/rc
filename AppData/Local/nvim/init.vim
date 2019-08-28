@@ -1,19 +1,53 @@
-"---------------------------------------------------------------------------
+"文字コード"
+set encoding=utf-8
+scriptencoding utf-8
+set fileencodings=guess,iso-2022-jp-3,2byte-cp932,euc-jisx0213,euc-jp,ucs-bom
+set fileformats=unix,dos,mac
+"python
+let g:python3_host_prog='C:\Python37\python'
+"-------------------------------------------
+"dein設定
+if &compatible
+  set nocompatible
+endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.cache/dein.vim
+
+if dein#load_state('~/.cache/dein.vim')
+  call dein#begin('~/.cache/dein.vim')
+
+  call dein#add('~/.cache/dein.vim')
+  " プラグインリストを収めた TOML ファイル
+  " 予め TOML ファイルを用意しておく
+  let g:rc_dir    = expand("~/.cache/nvim/")
+  let s:toml      = g:rc_dir . '/dein.toml'
+  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+
+  " TOML を読み込み、キャッシュしておく
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+  call dein#end()
+  call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+if dein#check_install()
+  call dein#install()
+endif
+
+"deoplete設定
+set completeopt-=preview
+let g:float_preview#docked = 1
+
+"---------------------------------------------------------------------------^
 "カラースキーム変更
-syntax on
-colorscheme molokai
-"---------------------------------------------------------------------------
-"バックアップ
-set backup
-set backupdir=~/VimBackUp/
-
-""" Swap file settings (.file.txt.swp)
-set swapfile
-set directory=~/VimBackUp/
-
-""" Undo file settings (.file.txt.un~)
-set undofile
-set undodir=~/VimBackUp/
+syntax on 
+" 256色¬ 
+set t_Co=256¬ 
+" " truecolor¬ 
+set termguicolors
+set pumblend=80
 "---------------------------------------------------------------------------
 " 検索の挙動に関する設定:
 "
@@ -27,8 +61,7 @@ vnoremap * "zy:let @/ = @z<CR>n
 " 編集に関する設定:
 "
 "空行を挿入
-nnoremap o o<ESC>
-nnoremap O O<ESC>
+nnoremap O :<C-u>call append(expand('.'), '')<Cr>j
 " タブの画面上での幅
 set tabstop=4
 " タブキー押下時に挿入される文字幅を指定
@@ -97,7 +130,7 @@ set ruler
 " タブや改行を非表示 (list:表示)
 set list
 " どの文字でタブや改行を表示するかを設定
-set listchars=tab:>-,space:~,extends:<,trail:~,eol:↲,nbsp:%
+set listchars=tab:>-,space:~,extends:<,trail:~,eol:←,nbsp:%
 " 長い行を折り返して表示 (nowrap:折り返さない)
 set wrap
 " 常にステータス行を表示 (詳細は:he laststatus)
@@ -108,20 +141,11 @@ set cmdheight=2
 set showcmd
 " タイトルを表示
 set title
-" 画面を黒地に白にする (次行の先頭の " を削除すれば有効になる)
-"colorscheme darkblue" (Windows用gvim使用時はgvimrcを編集すること)
-" ヤンクでクリップボードにコピー
-set clipboard=unnamed,autoselect
 "ウィンドウの下にterminalを開く"
 set splitbelow
-"terminalのサイズ指定"
-set termwinsize=10x0
-"bashを開く
-nnoremap gs :term ++close bash<CR>
-"カーソル下をgrep
-nnoremap gr yiw:tabnew grep_<C-R>"<CR>:r! grep -lri <C-R>" ./<CR>
-"grep結果からファイルを開く
-nnoremap gf <C-W>f<C-W><S-K><C-W>j:res 7<CR><C-W>k/<C-R>"<CR>
+command! -nargs=* T split | terminal <args>
+autocmd TermOpen * setlocal nonumber
+autocmd TermOpen * res 7
 "----------------------------------------------------------"
 "emacs移動
 " insert mode
