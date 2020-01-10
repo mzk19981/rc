@@ -1,8 +1,10 @@
 scriptencoding utf-8
+set enc=utf-8
+set fencs=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
 "---------------------------------------------------------------------------
 "カラースキーム変更
 syntax on
-colorscheme evening
+colorscheme molokai
 set guifont=Ricty_Diminished:h12
 "---------------------------------------------------------------------------
 "バックアップ
@@ -86,6 +88,41 @@ inoremap ８ 8
 inoremap ９ 9
 "ノーマルモードで: を;に置き換える"
 noremap ; :
+" ヤンクでクリップボードにコピー
+set clipboard=unnamed,autoselect
+"ウィンドウの下にterminalを開く"
+set splitbelow
+"terminalのサイズ指定"
+set termwinsize=10x0
+"bashを開く
+nnoremap gs :term ++close bash<CR>
+"カーソル下をgrep
+nnoremap gr yiw:tabe ~\VimBackUp\grep<CR>:r! grep -lri <C-R>" ./ --include "*.c"
+"grep結果からファイルを開く
+nnoremap gf <C-W>gf/<C-R>"<CR>
+"ビジュアルモードでインデント変更時モードを抜けないようにする
+vnoremap < <gv
+vnoremap > >gv
+"日付の入力
+nnoremap da i<C-R>=strftime("%Y/%b/%d")<CR><ESC>
+"ファイルパスをクリップボードにコピー
+nnoremap yp :let @+=expand("%")<CR>
+nnoremap yfp :let @+=expand("%:p")<CR>
+"インデントを自動で調整
+nnoremap <C-F> i<C-F><ESC>
+"----------------------------------------------------------"
+"emacs移動
+" insert mode
+inoremap <C-k> <Up>
+inoremap <C-j> <Down>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+"-----------------------------------------------------------
+"tagジャンプ
+set tags=tags;
+nmap <F8> :TagbarToggle<CR>
 "---------------------------------------------------------------------------
 " GUI固有ではない画面表示の設定:
 "
@@ -101,7 +138,7 @@ set list
 " どの文字でタブや改行を表示するかを設定
 set listchars=tab:>-,extends:<,trail:~,eol:↲,nbsp:%
 " 長い行を折り返して表示 (nowrap:折り返さない)
-set wrap
+set nowrap
 " 常にステータス行を表示 (詳細は:he laststatus)
 set laststatus=2
 "カーソルライン
@@ -113,31 +150,6 @@ set cmdheight=2
 set showcmd
 " タイトルを表示
 set title
-" ヤンクでクリップボードにコピー
-set clipboard=unnamed,autoselect
-"ウィンドウの下にterminalを開く"
-set splitbelow
-"terminalのサイズ指定"
-set termwinsize=10x0
-"bashを開く
-nnoremap gs :term ++close bash<CR>
-"カーソル下をgrep
-nnoremap gr yiw:tabnew grep_<C-R>"<CR>:r! grep -lri <C-R>" ./ --include "*.c"
-"grep結果からファイルを開く
-nnoremap gf <C-W>f<C-W><S-T>/<C-R>"<CR>
-"----------------------------------------------------------"
-"emacs移動
-" insert mode
-inoremap <C-k> <Up>
-inoremap <C-j> <Down>
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
-inoremap <C-a> <Home>
-inoremap <C-e> <End>
-"-----------------------------------------------------------
-"tagジャンプ
-set tags=tags;
-nmap <F8> :TagbarToggle<CR>
 "-----------------------------------------------------------
 "nerdtree-tab設定
 let g:nerdtree_tabs_open_on_console_startup=0
