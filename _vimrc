@@ -5,7 +5,6 @@ set fencs=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
 "カラースキーム変更
 syntax on
 set termguicolors
-colorscheme molokai
 "---------------------------------------------------------------------------
 "バックアップ
 set backup
@@ -58,6 +57,7 @@ set formatoptions+=mM
 "検索結果のハイライトと取り消し
 set hlsearch
 nnoremap <ESC><ESC> :nohlsearch<CR>
+set incsearch
 "全角スペースの可視化
 highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
 au BufNewFile,BufRead * match ZenkakuSpace /　/
@@ -98,10 +98,8 @@ set splitbelow
 set termwinsize=10x0
 "bashを開く
 nnoremap gs :term ++close bash<CR>
-"カーソル下をgrep
-nnoremap gr yiw:tabnew<CR>:r! grep -lri <C-R>" ./ --include "*.c"
-"grep結果からファイルを開く
-nnoremap gf <C-W>gf/<C-R>"<CR>
+nnoremap gr :Rgrep <CR>
+nnoremap gf <C-W>gf
 "ビジュアルモードでインデント変更時モードを抜けないようにする
 vnoremap < <gv
 vnoremap > >gv
@@ -125,6 +123,17 @@ inoremap <C-e> <End>
 "tagジャンプ
 set tags=tags;
 nmap <F8> :TagbarToggle<CR>
+"-----------------------------------------------------------
+"grepのパス
+"C:\MinGW\bin\egrep.exe
+let Grep_Path = 'C:\MinGW\bin\egrep.exe'
+let Egrep_Path = 'C:\MinGW\bin\egrep.exe'
+let Fgrep_Path = 'C:\MinGW\bin\fgrep.exe'
+let Agrep_Path = 'C:\MinGW\bin\agrep.exe'
+let Grep_Find_Path = 'C:\MinGW\bin\find.exe'
+let Grep_Xargs_Path = 'C:\MinGW\bin\xargs.exe'
+let Grep_Options = '-i'
+let Grep_Shell_Quote_Char = '"'
 "---------------------------------------------------------------------------
 " GUI固有ではない画面表示の設定:
 "
@@ -138,7 +147,7 @@ set ruler
 " タブや改行を非表示 (list:表示)
 set list
 " どの文字でタブや改行を表示するかを設定
-set listchars=tab:>-,extends:<,trail:~,eol:↲,nbsp:%
+set listchars=tab:>-,extends:<,trail:~,eol:<,nbsp:%
 " 長い行を折り返して表示 (nowrap:折り返さない)
 set nowrap
 " 常にステータス行を表示 (詳細は:he laststatus)
@@ -153,7 +162,40 @@ set showcmd
 " タイトルを表示
 set title
 "-----------------------------------------------------------
+if &compatible
+	set nocompatible
+endif
+" Add the dein installation directory into runtimepath
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
+
+if dein#load_state('~/.cache/dein')
+	call dein#begin('~/.cache/dein')
+
+	call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+	call dein#add('preservim/nerdtree')
+	call dein#add('jistr/vim-nerdtree-tabs')
+	call dein#add('mechatroner/rainbow_csv')
+
+	call dein#end()
+	call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+
+if dein#check_install()
+	call dein#install()
+endif
+
+"-----------------------------------------------------------
 "nerdtree-tab設定
 let g:nerdtree_tabs_open_on_console_startup=1
 " 他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+"-----------------------------------------------------------
+"カレントウィンドウ以外暗くする
+autocmd ColorScheme * highlight NormalNC guifg=#a0a0a0 guibg=#121212
+autocmd WinEnter,BufWinEnter * setlocal wincolor=
+autocmd WinLeave * setlocal wincolor=NormalNC
