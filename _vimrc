@@ -1,6 +1,7 @@
 scriptencoding utf-8
 set enc=utf-8
 set fencs=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
+set ambiwidth=double
 "---------------------------------------------------------------------------
 "カラースキーム変更
 syntax on
@@ -176,6 +177,7 @@ if dein#load_state('~/.cache/dein')
 	call dein#add('preservim/nerdtree')
 	call dein#add('jistr/vim-nerdtree-tabs')
 	call dein#add('mechatroner/rainbow_csv')
+	call dein#add('yegappan/grep')
 
 	call dein#end()
 	call dein#save_state()
