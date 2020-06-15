@@ -198,6 +198,7 @@ if dein#load_state('~/.cache/dein')
 	call dein#add('mechatroner/rainbow_csv')
 	call dein#add('yegappan/grep')
 	call dein#add('majutsushi/tagbar')
+	call dein#add('simeji/winresizer')
 
 	call dein#end()
 	call dein#save_state()
@@ -212,6 +213,8 @@ endif
 
 "-----------------------------------------------------------
 "nerdtree-tab設定
-let g:nerdtree_tabs_open_on_console_startup=1
+let g:nerdtree_tabs_open_on_gui_startup = 0
+let g:nerdtree_tabs_open_on_console_startup = 0
 " 他のバッファをすべて閉じた時にNERDTreeが開いていたらNERDTreeも一緒に閉じる。
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+nnoremap <F2> :NERDTreeTabsToggle<CR>
