@@ -90,6 +90,11 @@ set noexpandtab
 set shiftwidth=4
 " 自動的にインデントする (noautoindent:インデントしない)
 set autoindent
+
+augroup fileTypeIndent
+	autocmd!
+	autocmd BufNewFile,BufRead *.hs setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+augroup END
 "---------------------------------------------------------------------------
 " 検索の挙動に関する設定:
 " 検索時に大文字小文字を無視 (noignorecase:無視しない)
