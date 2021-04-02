@@ -3,6 +3,8 @@ scriptencoding utf-8
 "エンコード
 set enc=utf-8
 set fencs=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
+"helpを日本語に
+set helplang=ja
 
 "---------------------------------------------------------------------------
 " バックアップファイル等
@@ -26,12 +28,6 @@ set undodir=~/VimBackUp/
 set splitbelow
 "terminalのサイズ指定"
 set termwinsize=10x0
-
-"カレントウィンドウ以外暗くする
-autocmd ColorScheme * highlight NormalNC guifg=#a0a0a0 guibg=#121212
-autocmd WinEnter,BufWinEnter * setlocal wincolor=
-autocmd WinLeave * setlocal wincolor=NormalNC
-
 "---------------------------------------------------------------------------
 "全般
 " バックスペースでインデントや改行を削除できるようにする
@@ -73,6 +69,10 @@ set cmdheight=2
 set showcmd
 " タイトルを表示
 set title
+" スクロール時に数行余裕を持たせる
+set scrolloff=5
+" マクロなどで画面の再描画を行わない
+set lazyredraw
 
 "---------------------------------------------------------------------------
 "カラー
@@ -94,6 +94,8 @@ set autoindent
 augroup fileTypeIndent
 	autocmd!
 	autocmd BufNewFile,BufRead *.hs setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+	autocmd BufNewFile,BufRead *.can setlocal tabstop=2 softtabstop=2 shiftwidth=2 expandtab filetype=c
+	autocmd BufNewFile,BufRead *.asc setlocal filetype=csv_whitespace
 augroup END
 "---------------------------------------------------------------------------
 " 検索の挙動に関する設定:
@@ -204,6 +206,8 @@ if dein#load_state('~/.cache/dein')
 	call dein#add('yegappan/grep')
 	call dein#add('majutsushi/tagbar')
 	call dein#add('simeji/winresizer')
+	call dein#add('vim-jp/vimdoc-ja')
+	call dein#add('dhruvasagar/vim-table-mode')
 
 	call dein#end()
 	call dein#save_state()
