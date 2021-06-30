@@ -1,37 +1,32 @@
 scriptencoding utf-8
 "---------------------------------------------------------------------------
-"エンコード
+" エンコード
 set enc=utf-8
-set fencs=ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default
-"helpを日本語に
+set fencs='ucs-bom,utf-8,iso-2022-jp,euc-jp,cp932,utf-16le,utf-16,default'
+" helpを日本語に
 set helplang=ja
 
 "---------------------------------------------------------------------------
-"python
-let g:python3_host_prog = 'C:\Python37\python.exe'
-"---------------------------------------------------------------------------
 " バックアップファイル等
-"
-"バックアップ
+" バックアップ
 set backup
 set backupdir=~/VimBackUp/
 
-""" Swap file settings (.file.txt.swp)
+" Swap file settings (.file.txt.swp)
 set swapfile
 set directory=~/VimBackUp/
 
-""" Undo file settings (.file.txt.un~)
+" Undo file settings (.file.txt.un~)
 set undofile
 set undodir=~/VimBackUp/
 
 "---------------------------------------------------------------------------
-" ウィンドウ設定
-
-"ウィンドウの下にterminalを開く"
+" カラー設定
 colorscheme molokai
-set splitbelow
+syntax on
+set termguicolors
 "---------------------------------------------------------------------------
-"全般
+" 全般
 " バックスペースでインデントや改行を削除できるようにする
 set backspace=indent,eol,start
 " 記号等の表示設定
@@ -75,11 +70,9 @@ set title
 set scrolloff=5
 " マクロなどで画面の再描画を行わない
 set lazyredraw
+" ウィンドウの下にterminalを開く"
+set splitbelow
 
-"---------------------------------------------------------------------------
-"カラー
-syntax on
-set termguicolors
 "---------------------------------------------------------------------------
 "インデント系
 " タブの画面上での幅
@@ -114,24 +107,6 @@ set wrapscan
 set hlsearch
 nnoremap <ESC><ESC> :nohlsearch<CR>
 set incsearch
-"全角スペースの可視化
-highlight ZenkakuSpace cterm=underline ctermfg=lightblue guibg=#666666
-au BufNewFile,BufRead * match ZenkakuSpace /　/
-"---------------------------------------------------------------------------
-" 検索の挙動に関する設定:
-" 検索時に大文字小文字を無視 (noignorecase:無視しない)
-set ignorecase
-" 大文字小文字の両方が含まれている場合は大文字小文字を区別
-set nosmartcase
-"ビジュアルモードで選択した部分を検索
-vnoremap * "zy:let @/ = @z<CR>n
-nnoremap / /\v
-" 検索時にファイルの最後まで行ったら最初に戻る (nowrapscan:戻らない)
-set wrapscan
-"検索結果のハイライトと取り消し
-set hlsearch
-nnoremap <ESC><ESC> :nohlsearch<CR>
-set incsearch
 
 "---------------------------------------------------------------------------
 " key変更
@@ -149,11 +124,6 @@ inoremap [ []<LEFT>
 inoremap ( ()<LEFT>
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
-inoremap ｛ {}<Left>
-inoremap （ ()<ESC>i
-inoremap （ ()<LEFT>
-inoremap ” ""<LEFT>
-inoremap ’ ''<LEFT>
 
 "ノーマルモードで: を;に置き換える"
 noremap ; :
@@ -165,7 +135,7 @@ nnoremap gf <C-W>gf
 vnoremap < <gv
 vnoremap > >gv
 "日付の入力
-inoremap <C-d> <C-R>=strftime("%Y/%b/%d")<CR>
+inoremap <expr> <C-d> strftime("%Y/%b/%d")
 "ファイルパスをクリップボードにコピー
 nnoremap yp :let @+=expand("%")<CR>
 nnoremap yfp :let @+=expand("%:p")<CR>
@@ -185,6 +155,10 @@ set tags=tags;
 set grepprg=egrep\ -rIn\ --exclude=tags
 set makeencoding=cp932
 au QuickfixCmdPost grep copen
+
+"---------------------------------------------------------------------------
+" python PATH
+let g:python3_host_prog = 'C:\Python37\python.exe'
 "-----------------------------------------------------------
 "dein設定
 
