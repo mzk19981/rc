@@ -130,7 +130,23 @@ noremap ; :
 "bashを開く
 nnoremap gs :term<CR>
 nnoremap gr yiw :silent! gr! <C-R>+ ./
-nnoremap gf <C-W>gf
+
+function GotoFile() abort
+	let l:line = getline(".")
+	if(match(l:line,".\\+|\\d\\+|.\\+") >= 0)
+		let l:num = substitute(l:line,".\\+|\\(\\d\\+\\)|.\\+","\\1","")
+		let l:path = substitute(l:line,"\\(.\\+\\)|\\d\\+|.\\+","\\1","")
+		if(getftype(l:path) == "file")
+			execute("tabe +" . l:num . " " . l:path)
+		else
+			echo("File Not Find.")
+		endif
+	else
+		echo("Invalid Syntax.")
+	endif
+endfunction
+
+silent! nnoremap gf :call GotoFile()<CR>
 "ビジュアルモードでインデント変更時モードを抜けないようにする
 vnoremap < <gv
 vnoremap > >gv
